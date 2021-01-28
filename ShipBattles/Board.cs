@@ -38,6 +38,162 @@ namespace ShipBattles
             // loop through the different ships (by size) to decide positions
             for (int ship = 0; ship < SHIP_SIZES.Length; ship++)
             {
+                // do this one step at a time to avoid confusion
+
+                // variables
+                int shipSize = SHIP_SIZES[ship];
+                int posX;
+                int posY;
+                int direction; // 1 is left, 2 is right, 3 is up, 4 is down
+                bool valid; // determines if these are valid positions for that ship
+                bool validDir; // determine if the direction chosen is valid for that ship
+                int[] positionsX = new int[shipSize];
+                int[] positionsY = new int[shipSize];
+                Random random = new Random();
+
+                // test
+                Console.WriteLine($"\nShip size: {shipSize}");
+
+                do // generate a ship spot until a valid space is found on the board
+                {
+
+                    // test
+                    Console.WriteLine("Attempting to generate positions.");
+
+                    // generate a random position on the board
+                    posX = random.Next(0, 10);
+                    posY = random.Next(0, 10);
+                    valid = true; // reset valid to true until the opposite is determined
+                    validDir = true;
+
+                    // test
+                    Console.WriteLine($"Position generated: {posX}, {posY}");
+
+                    // check if that position has a ship already. If not, continue to the next iteration
+                    if (!boardVals[posX, posY].Equals(" "))
+                    {
+                        valid = false; // may be unnecessary, check later
+
+                        Console.WriteLine("Not a valid position."); // test
+
+                        continue; // skip to next iteration
+                    }
+
+                    // generate a random direction
+                    direction = random.Next(1, 5);
+
+                    // test
+                    Console.WriteLine($"Direction chosen: {direction}");
+
+                    // check that the ship going in that direction would be on the board
+                    // temp variables
+                    int tempPosX = posX;
+                    int tempPosY = posY;
+
+                    for (int i = 0; i < shipSize; i++)
+                    {
+                        // test
+                        Console.WriteLine($"Temp position {i}: {tempPosX}, {tempPosY}");
+
+                        // make sure the position is valid
+                        if (tempPosX < 0 || tempPosX > 9 || tempPosY < 0 || tempPosY > 9)
+                        {
+                            validDir = false; // if one of them is off the board then it's not valid
+                            valid = false;
+
+                            Console.WriteLine("Not a valid direction."); // test
+
+                            break;
+                        }
+                        else
+                        {
+                            switch (direction) // if it's a valid position, change the position according to the direction
+                            {
+                                case (1):
+                                    tempPosX -= 1;
+                                    break;
+                                case (2):
+                                    tempPosX += 1;
+                                    break;
+                                case (3):
+                                    tempPosY -= 1;
+                                    break;
+                                case (4):
+                                    tempPosY += 1;
+                                    break;
+                                default:
+                                    Console.WriteLine("Error picking a direction.");
+                                    break;
+                            }
+
+                            // change the direction positions now to avoid confusion later
+                            // these will change again if the positions aren't valid
+                            positionsX[i] = tempPosX;
+                            positionsY[i] = tempPosY; // remember these will be canceled if it's not all valid
+                        }
+
+                        // check if it's still a valid direction
+                        if (!validDir)
+                        {
+                            valid = false;
+
+                            Console.WriteLine("Not a valid direction."); // test
+
+                        }
+
+
+                    }
+
+                    // if it was a valid direction
+                    if (validDir)
+                    {
+
+                        Console.WriteLine("Valid direction."); // test
+
+                        // check that all those positions are empty on the board
+
+                        Console.WriteLine("\nTesting for empty spots."); // test
+
+                        for (int x = 0; x < shipSize; x++)
+                        {
+                            Console.WriteLine($"Index: {positionsX[x]},{positionsY[x]}"); // test
+
+                            // check if that position on the board is empty
+                            if (!boardVals[positionsX[x], positionsY[x]].Equals(" "))
+                            {
+                                Console.WriteLine("Not empty. Not a valid ship position."); // test
+                                valid = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Empty spot."); // test
+                            }
+                        }
+                    }
+                    
+
+                } while (!valid);
+
+                // NOW that a valid spot has been found for the ship, set those positions to +
+                for (int x = 0; x < positionsX.Length; x++)
+                {
+                    for (int y = 0; y < positionsY.Length; y++)
+                    {
+                        boardVals[positionsX[x], positionsY[y]] = "+";
+                    }
+                }
+
+
+
+
+
+            }
+        }
+
+                
+
+
+                /*
                 // variables
                 bool valid = true; // determines if these are valid positions for that ship
                 int posX;
@@ -287,7 +443,7 @@ namespace ShipBattles
 
             }
         }
-
+                */
 
     }
 }
