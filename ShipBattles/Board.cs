@@ -343,13 +343,13 @@ namespace ShipBattles
                 Random random = new Random();
 
                 // test
-                Console.WriteLine($"\nShip size: {shipSize}");
+                //Console.WriteLine($"\nShip size: {shipSize}");
 
                 do // generate a ship spot until a valid space is found on the board
                 {
 
                     // test
-                    Console.WriteLine("Attempting to generate positions.");
+                    //Console.WriteLine("Attempting to generate positions.");
 
                     // generate a random position on the board
                     posX = random.Next(0, 10);
@@ -358,14 +358,14 @@ namespace ShipBattles
                     validDir = true;
 
                     // test
-                    Console.WriteLine($"Position generated: {posX}, {posY}");
+                    //Console.WriteLine($"Position generated: {posX}, {posY}");
 
                     // check if that position has a ship already. If not, continue to the next iteration
                     if (!boardVals[posX, posY].Equals(" "))
                     {
                         valid = false; // may be unnecessary, check later
 
-                        Console.WriteLine("Not a valid position."); // test
+                        //Console.WriteLine("Not a valid position."); // test
 
                         continue; // skip to next iteration
                     }
@@ -374,7 +374,7 @@ namespace ShipBattles
                     direction = random.Next(1, 5);
 
                     // test
-                    Console.WriteLine($"Direction chosen: {direction}");
+                    //Console.WriteLine($"Direction chosen: {direction}");
 
                     // check that the ship going in that direction would be on the board
                     // temp variables
@@ -384,7 +384,7 @@ namespace ShipBattles
                     for (int i = 0; i < shipSize; i++)
                     {
                         // test
-                        Console.WriteLine($"Temp position {i}: {tempPosX}, {tempPosY}");
+                        //Console.WriteLine($"Temp position {i}: {tempPosX}, {tempPosY}");
 
                         // make sure the position is valid
                         if (tempPosX < 0 || tempPosX > 9 || tempPosY < 0 || tempPosY > 9)
@@ -392,7 +392,7 @@ namespace ShipBattles
                             validDir = false; // if one of them is off the board then it's not valid
                             valid = false;
 
-                            Console.WriteLine("Not a valid direction."); // test
+                            //Console.WriteLine("Not a valid direction."); // test
 
                             break;
                         }
@@ -430,7 +430,7 @@ namespace ShipBattles
                         {
                             valid = false;
 
-                            Console.WriteLine("Not a valid direction."); // test
+                            //Console.WriteLine("Not a valid direction."); // test
 
                         }
 
@@ -441,25 +441,25 @@ namespace ShipBattles
                     if (validDir)
                     {
 
-                        Console.WriteLine("Valid direction."); // test
+                        //Console.WriteLine("Valid direction."); // test
 
                         // check that all those positions are empty on the board
 
-                        Console.WriteLine("\nTesting for empty spots."); // test
+                        //Console.WriteLine("\nTesting for empty spots."); // test
 
                         for (int n = 0; n < shipSize; n++)
                         {
-                            Console.WriteLine($"Index: {positionsX[n]},{positionsY[n]}"); // test
+                            //Console.WriteLine($"Index: {positionsX[n]},{positionsY[n]}"); // test
 
                             // check if that position on the board is empty
                             if (!boardVals[positionsX[n], positionsY[n]].Equals(" "))
                             {
-                                Console.WriteLine("Not empty. Not a valid ship position."); // test
+                                //Console.WriteLine("Not empty. Not a valid ship position."); // test
                                 valid = false;
                             }
                             else
                             {
-                                Console.WriteLine("Empty spot."); // test
+                                //Console.WriteLine("Empty spot."); // test
                             }
                         }
                     }
