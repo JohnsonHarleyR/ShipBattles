@@ -16,6 +16,11 @@ namespace ShipBattles
             //DisplayBoard(playerShipBoard);
             DisplayBoth(playerGuessBoard, playerShipBoard);
 
+            // test the generator for the computer positions
+            compShipBoard.GeneratePositions();
+            Console.WriteLine("\nTesting the board generator for the computer.");
+            DisplayBoard(compShipBoard);
+
             Console.WriteLine("Hello World!");
         }
 
