@@ -50,21 +50,68 @@ namespace ShipBattles
         }
 
         // returns the number positions on a board based on a user's input
-        // NOTE the input must be in this format "A1"
+        // NOTE the input must be in this format "A1" - should already be validated
         public int[] MatchSpace(string space)
         {
             // variables
-            int[] spots = new int[2];
+            string posX;
+            int posY;
+            int[] positions = new int[2];
 
-            try
+            // first get the first position based on the letter
+            posX = space.Substring(0, 1);
+            // figure out which one it matches and assign accordingly
+            switch (posX)
             {
-
-            } catch (Exception)
-            {
-                Console.WriteLine("Error: could not match position on board.\nReturning empty array.");
+                case ("A"):
+                    positions[0] = 0;
+                    break;
+                case ("B"):
+                    positions[0] = 1;
+                    break;
+                case ("C"):
+                    positions[0] = 2;
+                    break;
+                case ("D"):
+                    positions[0] = 3;
+                    break;
+                case ("E"):
+                    positions[0] = 4;
+                    break;
+                case ("F"):
+                    positions[0] = 5;
+                    break;
+                case ("G"):
+                    positions[0] = 6;
+                    break;
+                case ("H"):
+                    positions[0] = 7;
+                    break;
+                case ("I"):
+                    positions[0] = 8;
+                    break;
+                case ("J"):
+                    positions[0] = 9;
+                    break;
+                default:
+                    Console.WriteLine("Error: could not match position of letter.");
+                    break;
             }
 
-            return spots; // return result
+            // now get the second position based on the number - subtract 1
+            if (space.Length == 3) // if it's 3 letters long, that means this number is 10 so parse 2 numbers
+            {
+                posY = Int32.Parse(space.Substring(1, 2)) - 1; // subtract 1
+            } else
+            {
+                posY = Int32.Parse(space.Substring(1, 1)) - 1; // subtract 1
+            }
+
+            // set it to the second position in the array
+            positions[1] = posY;
+            
+
+            return positions; // return result
 
         }
 
