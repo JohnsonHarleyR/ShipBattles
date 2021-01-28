@@ -1,0 +1,13 @@
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.exe
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.deps.json
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.runtimeconfig.json
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.runtimeconfig.dev.json
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.dll
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\bin\Debug\netcoreapp3.1\ShipBattles.pdb
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.csprojAssemblyReference.cache
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.AssemblyInfoInputs.cache
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.AssemblyInfo.cs
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.csproj.CoreCompileInputs.cache
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.dll
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.pdb
+C:\Users\Business\source\repos\ShipBattles\ShipBattles\obj\Debug\netcoreapp3.1\ShipBattles.genruntimeconfig.cache
