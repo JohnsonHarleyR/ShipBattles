@@ -52,17 +52,40 @@ namespace ShipBattles
             }
             */
 
+            /*
             // test adding a ship with the AskForShip function, then display
             //Console.WriteLine("\nTest adding the 'Battleship' ship with 4 spaces.\n");
             Console.WriteLine();
             DisplayBoard(playerShipBoard);
             AskForShip("Battleship", 4, playerShipBoard);
             DisplayBoard(playerShipBoard);
+            */
+
+            // test adding all ships at once with method AskAllShips
+            //DisplayBoard(playerShipBoard);
+            AskAllShips(playerShipBoard);
+            DisplayBoard(playerShipBoard);
 
 
 
 
             Console.WriteLine("Hello World!");
+        }
+
+        // Ask for all ships to place on a board - only do if board is empty
+        public static void AskAllShips(Board board)
+        {
+            string[] NAMES = board.GetShipNames();
+            int[] SIZES = board.GetShipSizes();
+
+            // iterate through the ships to ask for them
+            for (int i = 0; i < NAMES.Length; i++)
+            {
+                //Display board first so they can know where to place it
+                Console.WriteLine(); // add a line for spacing
+                DisplayBoard(board);
+                AskForShip(NAMES[i], SIZES[i], board);
+            }
         }
 
         // Ask for a single ship and place on board
@@ -75,7 +98,7 @@ namespace ShipBattles
             Console.WriteLine($"\nAdding  '{shipName}' to your board. There are {shipSize} spaces.");
             do // keep asking until they give valid positions for the ship.
             {
-                Console.WriteLine($"Please give the coordinates for the first and last spaces on the ship.\n");
+                Console.WriteLine($"Please give the coordinates for the first and last spaces of '{shipName}'.\n");
                 pos1Temp = AskPosition("Position 1: ");
                 pos2Temp = AskPosition("Position 2: ");
                 valid = board.ValidateShipSpace(shipName, pos1Temp, pos2Temp);

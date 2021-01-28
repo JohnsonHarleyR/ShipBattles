@@ -31,13 +31,13 @@ namespace ShipBattles
         }
 
         // get the ship names
-        public string[] GetShipSizes()
+        public string[] GetShipNames()
         {
             return SHIP_NAMES;
         }
 
         // get the ship sizes
-        public int[] GetShipNames()
+        public int[] GetShipSizes()
         {
             return SHIP_SIZES;
         }
