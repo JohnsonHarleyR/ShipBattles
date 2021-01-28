@@ -8,20 +8,77 @@ namespace ShipBattles
         static void Main(string[] args)
         {
             // Variables
-            Board playerShipBoard = new Board(); // the board the player will place ships on
-            Board playerGuessBoard = new Board(); // the board where the player places their guesses
-            Board compShipBoard = new Board(); // the board the computer will place ships on
-            Board compGuessBoard = new Board(); // the board where the computer will guess
+            Board playerShipBoard; // the board the player will place ships on
+            Board playerGuessBoard; // the board where the player places their guesses
+            Board compShipBoard; // the board the computer will place ships on
+            Board compGuessBoard; // the board where the computer will guess
 
+            string introMsg =
+" _     _  _______  ___      _______  _______  __   __  _______    _______  _______                \n" +
+"| | _ | ||       ||   |    |       ||       ||  |_|  ||       |  |       ||       |               \n" +
+"| || || ||    ___||   |    |       ||   _   ||       ||    ___|  |_     _||   _   |               \n" +
+"|       ||   |___ |   |    |       ||  | |  ||       ||   |___     |   |  |  | |  |               \n" +
+"|       ||    ___||   |___ |      _||  |_|  ||       ||    ___|    |   |  |  |_|  |               \n" +
+"|   _   ||   |___ |       ||     |_ |       || ||_|| ||   |___     |   |  |       |               \n" +
+"|__| |__||_______||_______||_______||_______||_|   |_||_______|    |___|  |_______|               \n" +
+" _______  __   __  ___   _______    _______  _______  _______  _______  ___      _______  _______ \n" +
+"|       ||  | |  ||   | |       |  |  _    ||   _   ||       ||       ||   |    |       ||       |\n" +
+"|  _____||  |_|  ||   | |    _  |  | |_|   ||  |_|  ||_     _||_     _||   |    |    ___||  _____|\n" +
+"| |_____ |       ||   | |   |_| |  |       ||       |  |   |    |   |  |   |    |   |___ | |_____ \n" +
+"|_____  ||       ||   | |    ___|  |  _   | |       |  |   |    |   |  |   |___ |    ___||_____  |\n" +
+" _____| ||   _   ||   | |   |      | |_|   ||   _   |  |   |    |   |  |       ||   |___  _____| |\n" +
+"|_______||__| |__||___| |___|      |_______||__| |__|  |___|    |___|  |_______||_______||_______|\n" +
+                "\n(Psst, it's just like Battleship.)\n";
+            bool cont = true; // determine whether to play another game or exit
+
+
+            // loop as long as they want to play a game
+            do
+            {
+                // introduction
+                Console.WriteLine(introMsg);
+
+                // TODO Add a menu to explain rules or play the game - do this after game is complete
+
+
+                // START THE GAME
+
+                // Generate new boards
+                playerGuessBoard = new Board(); // the board where the player places their guesses
+                playerShipBoard = new Board(); // the board the player will place ships on
+
+                compGuessBoard = new Board(); // the board where the computer will guess
+                compShipBoard = new Board(); // the board the computer will place ships on
+                
+
+
+                // Generate the positions for the AI's board
+                compShipBoard.GenerateAIPositions();
+
+                // Ask the player where they want to place their ships
+                Console.WriteLine("\nYou will be playing against an AI who has already set up her ships.");
+                Console.WriteLine("Let's get your ships set up!");
+                AskAllShips(playerShipBoard);
+
+
+
+
+            } while (cont); // loop as long as they want to play a game
+
+
+
+            // testing area
 
             // test the board display
             //DisplayBoard(playerShipBoard);
-            DisplayBoth(playerGuessBoard, playerShipBoard);
+            //DisplayBoth(playerGuessBoard, playerShipBoard);
 
+            /*
             // test the generator for the computer positions
             compShipBoard.GenerateAIPositions();
             Console.WriteLine("\nTesting the board generator for the computer.");
             DisplayBoard(compShipBoard);
+            */
 
             /*
             // test getting input from user for a position
@@ -61,10 +118,12 @@ namespace ShipBattles
             DisplayBoard(playerShipBoard);
             */
 
+            /*
             // test adding all ships at once with method AskAllShips
             //DisplayBoard(playerShipBoard);
             AskAllShips(playerShipBoard);
             DisplayBoard(playerShipBoard);
+            */
 
 
 
