@@ -6,6 +6,8 @@ namespace ShipBattles
 {
     class Board
     {
+        // TODO alter code so that the game can identify which ship has sunk - do at end as not necessary to function
+
         private readonly int[] SHIP_SIZES = new int[]{5, 4, 3, 3, 2}; // how big each ship is
         private readonly string[] SHIP_NAMES = new string[]{"Carrier", // the names of each ship, matches respectively to sizes
         "Battleship", "Cruiser", "Submarine", "Destroyer"};
@@ -50,16 +52,120 @@ namespace ShipBattles
 
 
         // Add a ship to the board
-        public bool AddShip()
+
+        // validate space for ship to enter board
+        public bool ValidateShipSpace( string shipName, string pos1String, string pos2String)
         {
             // this returns a boolean that tells if adding it was successful or not
             // NOTE testing for correct letter input must be done in the main program
 
             // variables
-            bool successful = true; // sets to false if a space is already taken
+            //bool successful = true; // determines if a ship can be places where it's told to be placed
+            int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
+            int[] pos2 = MatchSpace(pos2String);
+            int xDif = Math.Abs(pos2[0] - pos1[0]);
+            int yDif = Math.Abs(pos2[1] - pos1[1]);
+            int shipSize;
 
+            // find out what size the ship is supposed to be
+            switch (shipName)
+            {
+                case "Carrier":
+                    shipSize = 5;
+                    break;
+                case "Battleship":
+                    shipSize = 4;
+                    break;
+                case "Cruiser":
+                    shipSize = 3;
+                    break;
+                case "Submarine":
+                    shipSize = 3;
+                    break;
+                case "Destroyer":
+                    shipSize = 2;
+                    break;
+                default:
+                    Console.WriteLine("Error: ship type is not valid.");
+                    return false; // it didn't match a ship so return false - not successful - avoid going further
+            }
 
-            return successful; // return whether it was successful
+            // first make sure that the difference in spaces matches what's necessary for that type of ship
+            if (shipSize != xDif && shipSize != yDif)
+            {
+                //successful = false;
+                return false;
+            }
+
+            // make sure the spaces are in line either vertically or horizonally
+            if (pos1[0] != pos1[0] && pos1[1] != pos1[1])
+            {
+                //successful = false;
+                return false; // it is not in a straight line so return false
+            }
+
+            // now test all spaces in that ship line to make sure they do not have "+" ****GOOD FOR ANOTHER FUNCTION****
+            int tempDif;
+            int tempX;
+            int tempY;
+            int tempTop; // the lst space in the line
+            if (pos1[1] == pos2[1]) // if the y values are the same, then the different positions must be the x's
+            {
+                tempDif = xDif;
+                // figure out which value is lower, then set x and y
+                // start with the lower position as the temp
+                if (pos1[0] < pos2[0])
+                {
+                    tempX = pos1[0];
+                    tempTop = pos2[0];
+                } else
+                {
+                    tempX = pos2[0];
+                    tempTop = pos1[0];
+                }
+                tempY = pos1[1]; // the y will be the same for both so set the temp to either one
+
+                // loop through values to test
+                for (int i = tempX; i <= tempTop; i++)
+                {
+                    // now test if all those positions are empty
+                    if (!boardVals[i, tempY].Equals(" "))
+                    {
+                        return false; // if a space isn't empty, then it's not successful
+                    }
+                }
+
+            } else // otherwise the x values are he same so do it the opposite
+            {
+                tempDif = yDif;
+                // figure out which value is lower, then set x and y
+                // start with the lower position as the temp
+                if (pos1[1] < pos2[1])
+                {
+                    tempY = pos1[1];
+                    tempTop = pos2[1];
+                }
+                else
+                {
+                    tempY = pos2[1];
+                    tempTop = pos1[1];
+                }
+                tempX = pos1[0]; // the x will be the same for both so set the temp to either one
+
+                // loop through values to test
+                for (int i = tempY; i <= tempTop; i++)
+                {
+                    // now test if all those positions are empty
+                    if (!boardVals[tempX, i].Equals(" "))
+                    {
+                        return false; // if a space isn't empty, then it's not successful
+                    }
+                }
+
+            }
+
+            return true; // if it has survived thus far, it must be successful so return true
+            //return successful; // return whether it was successful
 
         }
 

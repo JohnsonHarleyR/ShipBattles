@@ -24,7 +24,7 @@ namespace ShipBattles
             DisplayBoard(compShipBoard);
 
             // test getting input from user for a position
-            string pos = AskPosition();
+            string pos = AskPosition("Input position: "); // automatically validates
 
             // test matching the space of that position on a board
             int[] testPos = playerShipBoard.MatchSpace(pos);
@@ -34,6 +34,13 @@ namespace ShipBattles
             playerShipBoard.MarkSpaceAsShip(testPos);
             DisplayBoard(playerShipBoard);
 
+            // test adding a ship to the player board
+            Console.WriteLine("\nTest adding a the 'Carrier' ship with 5 spaces.");
+            string pos1Temp = AskPosition("Position 1: ");
+            string pos2Temp = AskPosition("Position 2: ");
+            Console.WriteLine($"Valid spaces for ship? " +
+                $"{playerShipBoard.ValidateShipSpace("Carrier", pos1Temp, pos2Temp)}");
+
 
 
             Console.WriteLine("Hello World!");
@@ -42,7 +49,7 @@ namespace ShipBattles
 
 
         // enter a letter, validate it and return that string with correct input
-        public static string AskPosition()
+        public static string AskPosition(string message)
         {
             // test the position validator - reuse this to get input
             bool validEntry;
@@ -50,7 +57,7 @@ namespace ShipBattles
             do
             {
                 // get input for position
-                Console.Write("\nInput position: ");
+                Console.Write($"\n{message}");
                 input = Console.ReadLine();
                 validEntry = ValidatePosition(input);
                 // tell them it's invalid if it's not valid
