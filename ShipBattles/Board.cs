@@ -107,6 +107,11 @@ namespace ShipBattles
                         }
                         else
                         {
+                            // change the direction positions now to avoid confusion later
+                            // these will change again if the positions aren't valid
+                            positionsX[i] = tempPosX;
+                            positionsY[i] = tempPosY; // remember these will be canceled if it's not all valid
+
                             switch (direction) // if it's a valid position, change the position according to the direction
                             {
                                 case (1):
@@ -126,10 +131,7 @@ namespace ShipBattles
                                     break;
                             }
 
-                            // change the direction positions now to avoid confusion later
-                            // these will change again if the positions aren't valid
-                            positionsX[i] = tempPosX;
-                            positionsY[i] = tempPosY; // remember these will be canceled if it's not all valid
+                            
                         }
 
                         // check if it's still a valid direction
