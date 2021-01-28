@@ -51,7 +51,68 @@ namespace ShipBattles
         }
 
 
-        // Add a ship to the board
+        // Add a ship to the board - do this only after the ship spaces have been validated
+        public void AddShipSpace(string shipName, string pos1String, string pos2String)
+        {
+            // variables
+            //bool successful = true; // determines if a ship can be places where it's told to be placed
+            int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
+            int[] pos2 = MatchSpace(pos2String);
+            int xDif = Math.Abs(pos2[0] - pos1[0]) + 1;
+            int yDif = Math.Abs(pos2[1] - pos1[1]) + 1;
+            int shipSize;
+
+            // change spaces in line to "+"
+            int tempX;
+            int tempY;
+            int tempTop; // the lst space in the line
+            if (pos1[1] == pos2[1]) // if the y values are the same, then the different positions must be the x's
+            {
+                // figure out which value is lower, then set x and y
+                // start with the lower position as the temp
+                if (pos1[0] < pos2[0])
+                {
+                    tempX = pos1[0];
+                    tempTop = pos2[0];
+                }
+                else
+                {
+                    tempX = pos2[0];
+                    tempTop = pos1[0];
+                }
+                tempY = pos1[1]; // the y will be the same for both so set the temp to either one
+
+                // loop through values to change
+                for (int i = tempX; i <= tempTop; i++)
+                {
+                    boardVals[i, tempY] = "+";
+                }
+
+            }
+            else // otherwise the x values are the same so do it the opposite
+            {
+                // figure out which value is lower, then set x and y
+                // start with the lower position as the temp
+                if (pos1[1] < pos2[1])
+                {
+                    tempY = pos1[1];
+                    tempTop = pos2[1];
+                }
+                else
+                {
+                    tempY = pos2[1];
+                    tempTop = pos1[1];
+                }
+                tempX = pos1[0]; // the x will be the same for both so set the temp to either one
+
+                // loop through values to change
+                for (int i = tempY; i <= tempTop; i++)
+                {
+                    boardVals[tempX, i] = "+";
+                }
+
+            }
+        }
 
         // validate space for ship to enter board
         public bool ValidateShipSpace( string shipName, string pos1String, string pos2String)
@@ -63,8 +124,8 @@ namespace ShipBattles
             //bool successful = true; // determines if a ship can be places where it's told to be placed
             int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
             int[] pos2 = MatchSpace(pos2String);
-            int xDif = Math.Abs(pos2[0] - pos1[0]);
-            int yDif = Math.Abs(pos2[1] - pos1[1]);
+            int xDif = Math.Abs(pos2[0] - pos1[0]) + 1;
+            int yDif = Math.Abs(pos2[1] - pos1[1]) + 1;
             int shipSize;
 
             // find out what size the ship is supposed to be
@@ -90,10 +151,17 @@ namespace ShipBattles
                     return false; // it didn't match a ship so return false - not successful - avoid going further
             }
 
+            Console.WriteLine($"Ship Size: {shipSize}"); // test
+
+            Console.WriteLine($"X Dif: {xDif}"); // test
+            Console.WriteLine($"Y Dif: {yDif}"); // test
+
             // first make sure that the difference in spaces matches what's necessary for that type of ship
             if (shipSize != xDif && shipSize != yDif)
             {
                 //successful = false;
+                Console.WriteLine($"Difference does not match ship size."); // test
+
                 return false;
             }
 
@@ -105,13 +173,11 @@ namespace ShipBattles
             }
 
             // now test all spaces in that ship line to make sure they do not have "+" ****GOOD FOR ANOTHER FUNCTION****
-            int tempDif;
             int tempX;
             int tempY;
             int tempTop; // the lst space in the line
             if (pos1[1] == pos2[1]) // if the y values are the same, then the different positions must be the x's
             {
-                tempDif = xDif;
                 // figure out which value is lower, then set x and y
                 // start with the lower position as the temp
                 if (pos1[0] < pos2[0])
@@ -135,9 +201,8 @@ namespace ShipBattles
                     }
                 }
 
-            } else // otherwise the x values are he same so do it the opposite
+            } else // otherwise the x values are the same so do it the opposite
             {
-                tempDif = yDif;
                 // figure out which value is lower, then set x and y
                 // start with the lower position as the temp
                 if (pos1[1] < pos2[1])
