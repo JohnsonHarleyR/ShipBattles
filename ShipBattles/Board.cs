@@ -52,7 +52,7 @@ namespace ShipBattles
 
 
         // Add a ship to the board - do this only after the ship spaces have been validated
-        public void AddShipSpace(string shipName, string pos1String, string pos2String)
+        public void AddShipSpace(string pos1String, string pos2String)
         {
             // variables
             //bool successful = true; // determines if a ship can be places where it's told to be placed

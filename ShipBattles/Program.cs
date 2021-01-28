@@ -38,8 +38,15 @@ namespace ShipBattles
             Console.WriteLine("\nTest adding a the 'Carrier' ship with 5 spaces.");
             string pos1Temp = AskPosition("Position 1: ");
             string pos2Temp = AskPosition("Position 2: ");
+            bool tempValid = playerShipBoard.ValidateShipSpace("Carrier", pos1Temp, pos2Temp);
             Console.WriteLine($"Valid spaces for ship? " +
-                $"{playerShipBoard.ValidateShipSpace("Carrier", pos1Temp, pos2Temp)}");
+                $"{tempValid}");
+            // if it's valid, add to board and display
+            if (tempValid)
+            {
+                playerShipBoard.AddShipSpace(pos1Temp, pos2Temp);
+                DisplayBoard(playerShipBoard);
+            }
 
 
 
