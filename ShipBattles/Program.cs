@@ -23,6 +23,7 @@ namespace ShipBattles
             Console.WriteLine("\nTesting the board generator for the computer.");
             DisplayBoard(compShipBoard);
 
+            /*
             // test getting input from user for a position
             string pos = AskPosition("Input position: "); // automatically validates
 
@@ -33,8 +34,10 @@ namespace ShipBattles
             // test assigning that value as ship, then display board
             playerShipBoard.MarkSpaceAsShip(testPos);
             DisplayBoard(playerShipBoard);
+            */
 
-            // test adding a ship to the player board
+            /*
+             * // test adding a ship to the player board
             Console.WriteLine("\nTest adding a the 'Carrier' ship with 5 spaces.");
             string pos1Temp = AskPosition("Position 1: ");
             string pos2Temp = AskPosition("Position 2: ");
@@ -47,12 +50,50 @@ namespace ShipBattles
                 playerShipBoard.AddShipSpace(pos1Temp, pos2Temp);
                 DisplayBoard(playerShipBoard);
             }
+            */
+
+            // test adding a ship with the AskForShip function, then display
+            //Console.WriteLine("\nTest adding the 'Battleship' ship with 4 spaces.\n");
+            Console.WriteLine();
+            DisplayBoard(playerShipBoard);
+            AskForShip("Battleship", 4, playerShipBoard);
+            DisplayBoard(playerShipBoard);
+
 
 
 
             Console.WriteLine("Hello World!");
         }
 
+        // Ask for a single ship and place on board
+        public static void AskForShip(string shipName, int shipSize, Board board)
+        {
+            bool valid = false;
+            string pos1Temp;
+            string pos2Temp;
+
+            Console.WriteLine($"\nAdding  '{shipName}' to your board. There are {shipSize} spaces.");
+            do // keep asking until they give valid positions for the ship.
+            {
+                Console.WriteLine($"Please give the coordinates for the first and last spaces on the ship.\n");
+                pos1Temp = AskPosition("Position 1: ");
+                pos2Temp = AskPosition("Position 2: ");
+                valid = board.ValidateShipSpace(shipName, pos1Temp, pos2Temp);
+
+                // if it's not valid, tell them it's an invalid place to put the ship
+                if (!valid)
+                {
+                    Console.WriteLine($"Could not place this ship in that position.\n");
+                }
+            } while (!valid);
+            
+            
+            // if it's valid, add to board
+            if (valid)
+            {
+                board.AddShipSpace(pos1Temp, pos2Temp);
+            }
+        }
 
 
         // enter a letter, validate it and return that string with correct input
@@ -64,7 +105,7 @@ namespace ShipBattles
             do
             {
                 // get input for position
-                Console.Write($"\n{message}");
+                Console.Write(message);
                 input = Console.ReadLine();
                 validEntry = ValidatePosition(input);
                 // tell them it's invalid if it's not valid

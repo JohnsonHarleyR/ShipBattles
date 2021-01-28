@@ -30,6 +30,18 @@ namespace ShipBattles
 
         }
 
+        // get the ship names
+        public string[] GetShipSizes()
+        {
+            return SHIP_NAMES;
+        }
+
+        // get the ship sizes
+        public int[] GetShipNames()
+        {
+            return SHIP_SIZES;
+        }
+
         // Get the array from the board
         public string[,] GetBoardVals()
         {
@@ -151,10 +163,10 @@ namespace ShipBattles
                     return false; // it didn't match a ship so return false - not successful - avoid going further
             }
 
-            Console.WriteLine($"Ship Size: {shipSize}"); // test
+            //Console.WriteLine($"Ship Size: {shipSize}"); // test
 
-            Console.WriteLine($"X Dif: {xDif}"); // test
-            Console.WriteLine($"Y Dif: {yDif}"); // test
+            //Console.WriteLine($"X Dif: {xDif}"); // test
+            //Console.WriteLine($"Y Dif: {yDif}"); // test
 
             // first make sure that the difference in spaces matches what's necessary for that type of ship
             if (shipSize != xDif && shipSize != yDif)
