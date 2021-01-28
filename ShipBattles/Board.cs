@@ -34,6 +34,20 @@ namespace ShipBattles
             return boardVals;
         }
 
+        // mark as space on the board as hit
+        public void MarkSpaceAsHit(int[] pos)
+        {
+            // mark that board value as "x"
+            boardVals[pos[0], pos[1]] = "x";
+        }
+
+        // mark as space on the board as hit
+        public void MarkSpaceAsMiss(int[] pos)
+        {
+            // mark that board value as "o"
+            boardVals[pos[0], pos[1]] = "o";
+        }
+
 
         // Add a ship to the board
         public bool AddShip()
@@ -48,6 +62,14 @@ namespace ShipBattles
             return successful; // return whether it was successful
 
         }
+
+        // mark as space on the board as part of your ship
+        public void MarkSpaceAsShip(int[] pos)
+        {
+            // mark that board value as "+"
+            boardVals[pos[0], pos[1]] = "+";
+        }
+
 
         // returns the number positions on a board based on a user's input
         // NOTE the input must be in this format "A1" - should already be validated
@@ -119,7 +141,7 @@ namespace ShipBattles
 
 
         // Generate random positions of ships for an AI board
-        public void GeneratePositions()
+        public void GenerateAIPositions()
         {
             // loop through the different ships (by size) to decide positions
             for (int ship = 0; ship < SHIP_SIZES.Length; ship++)

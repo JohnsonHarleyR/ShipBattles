@@ -19,7 +19,7 @@ namespace ShipBattles
             DisplayBoth(playerGuessBoard, playerShipBoard);
 
             // test the generator for the computer positions
-            compShipBoard.GeneratePositions();
+            compShipBoard.GenerateAIPositions();
             Console.WriteLine("\nTesting the board generator for the computer.");
             DisplayBoard(compShipBoard);
 
@@ -28,7 +28,12 @@ namespace ShipBattles
 
             // test matching the space of that position on a board
             int[] testPos = playerShipBoard.MatchSpace(pos);
-            Console.WriteLine($"Test positions: {testPos[0]}, {testPos[1]}");
+            Console.WriteLine($"Test positions: {testPos[0]}, {testPos[1]}\n");
+
+            // test assigning that value as ship, then display board
+            playerShipBoard.MarkSpaceAsShip(testPos);
+            DisplayBoard(playerShipBoard);
+
 
 
             Console.WriteLine("Hello World!");
