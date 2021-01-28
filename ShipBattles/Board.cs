@@ -256,7 +256,6 @@ namespace ShipBattles
 
         // returns the number positions on a board based on a user's input
         // NOTE the input must be in this format "A1" - should already be validated
-        // NOTE the positions are reversed in the array compared to the board chart
         public int[] MatchSpace(string space)
         {
             // variables
@@ -270,34 +269,34 @@ namespace ShipBattles
             switch (posX)
             {
                 case ("A"):
-                    positions[1] = 0; 
+                    positions[0] = 0; 
                     break;
                 case ("B"):
-                    positions[1] = 1;
+                    positions[0] = 1;
                     break;
                 case ("C"):
-                    positions[1] = 2;
+                    positions[0] = 2;
                     break;
                 case ("D"):
-                    positions[1] = 3;
+                    positions[0] = 3;
                     break;
                 case ("E"):
-                    positions[1] = 4;
+                    positions[0] = 4;
                     break;
                 case ("F"):
-                    positions[1] = 5;
+                    positions[0] = 5;
                     break;
                 case ("G"):
-                    positions[1] = 6;
+                    positions[0] = 6;
                     break;
                 case ("H"):
-                    positions[1] = 7;
+                    positions[0] = 7;
                     break;
                 case ("I"):
-                    positions[1] = 8;
+                    positions[0] = 8;
                     break;
                 case ("J"):
-                    positions[1] = 9;
+                    positions[0] = 9;
                     break;
                 default:
                     Console.WriteLine("Error: could not match position of letter.");
@@ -314,7 +313,7 @@ namespace ShipBattles
             }
 
             // set it to the second position in the array
-            positions[0] = posY; // x and y are reversed in the array positions
+            positions[1] = posY;
             
 
             return positions; // return result

@@ -95,7 +95,7 @@ namespace ShipBattles
             string pos1Temp;
             string pos2Temp;
 
-            Console.WriteLine($"\nAdding  '{shipName}' to your board. There are {shipSize} spaces.");
+            Console.WriteLine($"\nNow adding '{shipName}' to your board. There are {shipSize} spaces.");
             do // keep asking until they give valid positions for the ship.
             {
                 Console.WriteLine($"Please give the coordinates for the first and last spaces of '{shipName}'.\n");
@@ -212,7 +212,9 @@ namespace ShipBattles
         public static void DisplayBoard(Board board)
         {
             // variables
-            string letters = "    A  B  C  D  E  F  G  H  I  J\n";
+            string[] letters = new string[] { "A", "B", "C", "D", // letters on the board
+                "E", "F", "G", "H", "I", "J" };
+            string numbers = "   1  2  3  4  5  6  7  8  9  10\n";
             string[,] boardVals = board.GetBoardVals();
 
             // first print a line of "-"
@@ -224,7 +226,7 @@ namespace ShipBattles
                 if (i == 0)
                 {
                     // write the initial |
-                    Console.Write(letters);
+                    Console.Write(numbers);
                     //Console.Write("\n|");
                 }
 
@@ -237,12 +239,12 @@ namespace ShipBattles
                         if (i != 9)
                         {
                             // write the initial |
-                            Console.Write(" " + (i + 1) + " ");
+                            Console.Write(letters[i] + " ");
                             //Console.Write("\n|");
                         } else
                         {
                             // write the initial |
-                            Console.Write((i + 1) + " ");
+                            Console.Write(letters[i] + " ");
                             //Console.Write("\n|");
                         }
 
