@@ -35,6 +35,10 @@ namespace ShipBattles
             // loop as long as they want to play a game
             do
             {
+                // variables
+                bool gameEnd = false; // measures if a game is finished or not
+                bool playerTurn = true; // if it's the player's turn, do one thing. If not, do another.
+
                 // introduction
                 Console.WriteLine(introMsg);
                 //Console.WriteLine("\nHey there, good to see you! Let's get playing, shall we?");
@@ -66,14 +70,119 @@ namespace ShipBattles
 
                 // Now show the player their entire board (with the guesses, too).
                 // Explain it to them a little, including that any guesses will be x or o
-                Console.WriteLine("\n\nNow that we're set up, here are your boards.\n");
+                Console.WriteLine("\n\nNow that we're set up, here are your boards.");
+                Console.WriteLine("\nThe top board will show where you have hit or missed on the enemy's board.");
+                Console.WriteLine("The bottom board is your own. It will show where the enemy has hit or missed.");
                 DisplayBoth(playerGuessBoard, playerShipBoard);
-                Console.WriteLine("\nThe top board will show your hits and misses on the enemy's board.");
-                Console.WriteLine("The bottom board is your own and shows where the enemy has hit and missed");
+               
+
+
+                // start the game officially as a loop, player gets to guess first
+                do // loop until either play or AI has hit all ships
+                {
+
+                    // a pause
+                    Console.WriteLine("\n(Hit enter to continue.)");
+                    Console.ReadLine();
+
+
+                    // test - to see enemy positions while testing
+                    Console.WriteLine("\nTEST: Displaying enemy positions.\n");
+                    DisplayBoard(compShipBoard);
+                    Console.WriteLine();
+
+                    // if it's the player's turn, allow them to guess
+                    if (playerTurn)
+                    {
+                        Console.WriteLine("It's your turn to guess!");
+
+                        // put into a loop in case they try to hit somewhere they've already targeted
+                        bool alreadyHit = false;
+                        do
+                        {
+                            // Ask what position they want to guess on the enemy board
+                            Console.WriteLine("\nWhich position do you want to target?");
+                            string guess = AskPosition("Your guess: ");
+
+                            // Find out if it's a hit or miss
+                            string spaceVal = compShipBoard.GetSpaceVal(guess);
+
+                            // determine result based on what that space is
+                            switch (spaceVal)
+                            {
+                                case " ":
+                                    Console.WriteLine("\nYou missed the enemy's ships!\n");
+                                    // set the player's guess board to 'miss' which is 'o'
+                                    playerGuessBoard.MarkSpaceAsMiss(guess);
+                                    // set the enemy's board to show you missed too
+                                    compShipBoard.MarkSpaceAsMiss(guess);
+                                    break;
+                                case "+":
+                                    Console.WriteLine("\nYou hit an enemy ship!\n");
+                                    // set the player's guess board to 'hit' which is 'x'
+                                    playerGuessBoard.MarkSpaceAsHit(guess);
+                                    // set the enemy's board to show you hit too
+                                    compShipBoard.MarkSpaceAsHit(guess);
+                                    break;
+                                case "x":
+                                    Console.WriteLine("You already hit their ship here.");
+                                    alreadyHit = true;
+                                    break;
+                                case "o":
+                                    Console.WriteLine("You already guessed that position.");
+                                    alreadyHit = true;
+                                    break;
+                                default:
+                                    Console.WriteLine("Error: board has unusual mark.");
+                                    break;
+                            }
+
+                        } while (alreadyHit);
+
+                        // a pause
+                        Console.WriteLine("\n(Hit enter to continue.)");
+                        Console.ReadLine();
+
+
+                        // show them their boards again
+                        Console.WriteLine("Here are your boards.");
+                        DisplayBoth(playerGuessBoard, playerShipBoard);
+
+
+                        // it's now the AI's turn
+                        playerTurn = false;
+
+
+
+                    } // if it's the AI's turn
+                    else if (!playerTurn) 
+                    {
+                        Console.Write("\nIt's the AI's turn to guess!");
+
+                        
+
+
+                        // it's now the player's turn
+                        playerTurn = true;
+
+                    } else // just in case something really weird happens (but it probably won't lol).
+                    {
+                        Console.WriteLine("Error: It is nobody's turn?");
+                        break;
+                    }
+
+
+                    // a pause
+                    Console.WriteLine("\n(Hit enter to continue.)");
+                    Console.ReadLine();
+
+
+                } while (!gameEnd); // loop as long as the game is still going
 
 
 
                 // a pause
+                Console.WriteLine("\n(Hit enter to continue.)");
                 Console.ReadLine();
 
             } while (cont); // loop as long as they want to play a game
@@ -352,7 +461,7 @@ namespace ShipBattles
             DisplayBoard(guessBoard);
             Console.WriteLine(line);
             DisplayBoard(shipBoard);
-            Console.WriteLine("An 'o' is a miss, while an 'x' is a hit.");
+            Console.WriteLine("\nAn 'o' is a miss, while an 'x' is a hit.");
 
         }
 

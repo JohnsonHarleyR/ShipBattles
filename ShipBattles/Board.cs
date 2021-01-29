@@ -48,16 +48,33 @@ namespace ShipBattles
             return boardVals;
         }
 
-        // mark as space on the board as hit
-        public void MarkSpaceAsHit(int[] pos)
+        // Get the value of a space on the board based on input position
+        public string GetSpaceVal(string input)
         {
+            try // some validation just in case - TODO Add similar validation to other methods - try catch
+            {
+                int[] pos = MatchSpace(input); // gets coordinates based on validated user input
+                return boardVals[pos[0], pos[1]];
+            } catch (Exception)
+            {
+                Console.WriteLine("Error: not a valid position to get value.");
+                return "error";
+            }
+            
+        }
+
+        // mark as space on the board as hit
+        public void MarkSpaceAsHit(string input)
+        {
+            int[] pos = MatchSpace(input); // gets coordinates based on validated user input
             // mark that board value as "x"
             boardVals[pos[0], pos[1]] = "x";
         }
 
         // mark as space on the board as hit
-        public void MarkSpaceAsMiss(int[] pos)
+        public void MarkSpaceAsMiss(string input)
         {
+            int[] pos = MatchSpace(input); // gets coordinates based on validated user input
             // mark that board value as "o"
             boardVals[pos[0], pos[1]] = "o";
         }
