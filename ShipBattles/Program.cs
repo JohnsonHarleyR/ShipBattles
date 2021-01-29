@@ -57,8 +57,11 @@ namespace ShipBattles
                 compGuessBoard = new Board(); // the board where the computer will guess
                 compShipBoard = new Board(); // the board the computer will place ships on
 
+
                 // give boards to AI
                 computer = new AI(compShipBoard, compGuessBoard); // these should all reference the same object?
+
+                // TODO (rename some of the AI keywords to stay consistent)
 
 
 
@@ -150,7 +153,7 @@ namespace ShipBattles
 
 
                         // show them their boards again
-                        Console.WriteLine("Here are your boards.");
+                        Console.WriteLine("Here are your boards.\n");
                         DisplayBoth(playerGuessBoard, playerShipBoard);
 
 
@@ -162,9 +165,55 @@ namespace ShipBattles
                     } // if it's the AI's turn
                     else if (!playerTurn) 
                     {
-                        Console.Write("\nIt's the AI's turn to guess!");
+                        Console.Write("It's the AI's turn to guess!");
 
-                        
+                        // Get the AI's guess
+                        int[] guessInt = computer.AIGuess(compGuessBoard);
+                        string guess = compGuessBoard.GeneratePosString(guessInt);
+                        Console.WriteLine($"\nThe AI is guessing {guess}.");
+                            
+
+                        // Find out if it's a hit or miss
+                        string spaceVal = playerShipBoard.GetSpaceVal(guess); //TODO overload the method to do it either way
+
+                        // determine result based on what that space is
+                        switch (spaceVal)
+                        {
+                            case " ":
+                                Console.WriteLine("\nShe missed your ships!\n");
+                                // set the AI's guess board to 'miss' which is 'o'
+                                compGuessBoard.MarkSpaceAsMiss(guess);
+                                // set your board to show they missed
+                                playerShipBoard.MarkSpaceAsMiss(guess);
+                                break;
+                            case "+":
+                                Console.WriteLine("\nShe hit one of your ships!\n");
+                                // set the AI's guess board to 'hit' which is 'x'
+                                compGuessBoard.MarkSpaceAsHit(guess);
+                                // set your board to show they hit
+                                playerShipBoard.MarkSpaceAsHit(guess);
+                                break;
+                            case "x":
+                                Console.WriteLine("She already hit that ship. (How did that happen?)");
+                                break;
+                            case "o":
+                                Console.WriteLine("She already hit that spot. (How did that happen?)");
+                                break;
+                            default:
+                                Console.WriteLine("Error: board has unusual mark.");
+                                break;
+                        }
+
+                        // loop wasn't necessary because there's already a loop in the AI's guess method
+
+                        // a pause
+                        Console.WriteLine("\n(Hit enter to continue.)");
+                        Console.ReadLine();
+
+
+                        // show them their boards again
+                        Console.WriteLine("Here are your boards.\n");
+                        DisplayBoth(playerGuessBoard, playerShipBoard);
 
 
                         // it's now the player's turn
@@ -175,11 +224,6 @@ namespace ShipBattles
                         Console.WriteLine("Error: It is nobody's turn?");
                         break;
                     }
-
-
-                    // a pause
-                    Console.WriteLine("\n(Hit enter to continue.)");
-                    Console.ReadLine();
 
 
                 } while (!gameEnd); // loop as long as the game is still going

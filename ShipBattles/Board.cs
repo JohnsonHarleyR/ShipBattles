@@ -339,6 +339,59 @@ namespace ShipBattles
         }
 
 
+        // Make a string based on a position
+        public string GeneratePosString(int[] pos)
+        {
+            string posString;
+
+            // first add to string based on matching letter
+            switch (pos[0])
+            {
+                case 0:
+                    posString = "A";
+                    break;
+                case 1:
+                    posString = "B";
+                    break;
+                case 2:
+                    posString = "C";
+                    break;
+                case 3:
+                    posString = "D";
+                    break;
+                case 4:
+                    posString = "E";
+                    break;
+                case 5:
+                    posString = "F";
+                    break;
+                case 6:
+                    posString = "G";
+                    break;
+                case 7:
+                    posString = "H";
+                    break;
+                case 8:
+                    posString = "I";
+                    break;
+                case 9:
+                    posString = "J";
+                    break;
+                default:
+                    posString = "O";
+                    Console.WriteLine("Error: position x did not match a letter.");
+                    break;
+            }
+
+            // now add the number at the end - add 1
+            int temp = pos[1] + 1;
+            posString += temp;
+
+            // return the string;
+            return posString;
+        }
+
+
 
         // Generate random positions of ships for an AI board
         // TODO move this to the AI class
