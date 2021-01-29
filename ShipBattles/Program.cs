@@ -37,6 +37,7 @@ namespace ShipBattles
             {
                 // introduction
                 Console.WriteLine(introMsg);
+                //Console.WriteLine("\nHey there, good to see you! Let's get playing, shall we?");
 
                 // TODO Add a menu to explain rules or play the game - do this after game is complete
 
@@ -57,7 +58,7 @@ namespace ShipBattles
 
                 // Ask the player where they want to place their ships
                 Console.WriteLine("\nYou will be playing against an AI who has already set up her ships.");
-                Console.WriteLine("Let's get your ships set up!");
+                Console.WriteLine("Your board is pretty empty, so let's get your ships set up!");
                 AskAllShips(playerShipBoard);
 
 
@@ -193,7 +194,7 @@ namespace ShipBattles
                 // tell them it's invalid if it's not valid
                 if (!validEntry)
                 {
-                    Console.Write("Invalid Entry.");
+                    Console.Write("Invalid Entry.\n");
                 }
             } while (!validEntry);
 
@@ -232,6 +233,12 @@ namespace ShipBattles
                     break;
                 }
 
+            }
+
+            // if the string is more than 3 letters long, it's not valid
+            if (position.Length > 3)
+            {
+                valid = false;
             }
 
             // now try to parse the number in the second position
