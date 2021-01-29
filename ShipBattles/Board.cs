@@ -11,8 +11,8 @@ namespace ShipBattles
         private readonly int[] SHIP_SIZES = new int[]{5, 4, 3, 3, 2}; // how big each ship is
         private readonly string[] SHIP_NAMES = new string[]{"Carrier", // the names of each ship, matches respectively to sizes
         "Battleship", "Cruiser", "Submarine", "Destroyer"};
-        private readonly string[] letters = new string[] { "A", "B", "C", "D", // letters on the board
-                "E", "F", "G", "H", "I", "J" };
+        // private readonly string[] letters = new string[] { "A", "B", "C", "D", // letters on the board
+           //     "E", "F", "G", "H", "I", "J" };
         private string[,] boardVals = new string[10, 10];
 
 
@@ -88,8 +88,6 @@ namespace ShipBattles
             //bool successful = true; // determines if a ship can be places where it's told to be placed
             int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
             int[] pos2 = MatchSpace(pos2String);
-            int xDif = Math.Abs(pos2[0] - pos1[0]) + 1;
-            int yDif = Math.Abs(pos2[1] - pos1[1]) + 1;
             int shipSize;
 
             // change spaces in line to "+"

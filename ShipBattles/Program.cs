@@ -2,10 +2,12 @@
 
 namespace ShipBattles
 {
+    // TODO Extra testing and debugging just in case
+
     class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
             // Variables
             Board playerShipBoard; // the board the player will place ships on
@@ -88,16 +90,19 @@ namespace ShipBattles
                 // start the game officially as a loop, player gets to guess first
                 do // loop until either play or AI has hit all ships
                 {
+                    // variables
+                    //bool playerWins; // this will get set to true or false once one of the boards has no ships
 
                     // a pause
                     Console.WriteLine("\n(Hit enter to continue.)");
                     Console.ReadLine();
 
-
+                    /*
                     // test - to see enemy positions while testing
                     Console.WriteLine("\nTEST: Displaying enemy positions.\n");
                     DisplayBoard(compShipBoard);
                     Console.WriteLine();
+                    */
 
                     // if it's the player's turn, allow them to guess
                     if (playerTurn)
@@ -225,14 +230,37 @@ namespace ShipBattles
                         break;
                     }
 
+                    //TODO test what it's like when the game ends, to make sure spaces are in correct places
+                    //TODO add tests to skip game to end
+
+                    // now check both boards to see if the game is over or not
+                    if (!ShipsLeft(compShipBoard) || !ShipsLeft(playerShipBoard))
+                    {
+                        gameEnd = true; // the game is over if there's no ships left on a board
+
+                        // now determine the winner and tell the player
+                        if (!ShipsLeft(compShipBoard))
+                        {
+                            Console.WriteLine("\nThe AI is out of ships!\nCongratulations, you are the winner!");
+                        }
+                        else if (!ShipsLeft(playerShipBoard))
+                        {
+                            Console.WriteLine("\nYou are out of ships, The AI wins!\nBetter luck next time.");
+                        }
+                    }
+
+
 
                 } while (!gameEnd); // loop as long as the game is still going
 
 
 
-                // a pause
-                Console.WriteLine("\n(Hit enter to continue.)");
-                Console.ReadLine();
+                // now check if the player wants to play another game
+                Console.WriteLine("\nWant to play another game? (Y/N): ");
+                if (Console.ReadLine().ToUpper().Contains("N"))
+                {
+                    cont = false; // if they enter 'n' at all, end the game
+                }
 
             } while (cont); // loop as long as they want to play a game
 
@@ -297,10 +325,55 @@ namespace ShipBattles
             */
 
 
-
-
-            Console.WriteLine("Hello World!");
         }
+
+
+
+        // TODO set it up so that the player is told if an individual ship is sunk
+
+
+
+
+
+        // check a board to see if there are any ship positions left
+        // returns true if there are ships left
+        public static bool ShipsLeft(Board board) // make sure the board is not a guess board
+        {
+            // variables
+            bool shipsLeft = false;
+            string[,] boardVals = board.GetBoardVals(); // make it easier
+            // iterate through board, if it finds a "+", then there are ships left
+            for (int x = 0; x < 10; x++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    //Console.WriteLine($"Testing: {x}, {y}"); // test
+
+                    //Console.WriteLine($"Value: '{boardVals[x, y]}'"); // test
+
+                    // check if it matches "+"
+                    if (boardVals[x,y].Equals("+"))
+                    {
+                        shipsLeft = true;
+
+                        //Console.WriteLine($"Ship found yet?: {shipsLeft}"); // test
+
+                        break; // no need to keep going if it found one
+                    }
+                }
+                if (shipsLeft)
+                { 
+                    break; // if ships are left, might as well save memory
+                }
+            }
+
+            //Console.WriteLine($"Ship found yet?: {shipsLeft}"); // test
+
+            // return result of search
+            return shipsLeft;
+
+        }
+
 
         // Ask for all ships to place on a board - only do if board is empty
         public static void AskAllShips(Board board)

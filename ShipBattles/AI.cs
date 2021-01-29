@@ -35,7 +35,7 @@ namespace ShipBattles
             string[,] boardVals = guessBoard.GetBoardVals(); // make it simpler
             int posX;
             int posY;
-            bool validGuess = true;
+            bool validGuess;
 
             // start off just having the AI guess a random position
 
