@@ -61,8 +61,20 @@ namespace ShipBattles
                 Console.WriteLine("Your board is pretty empty, so let's get your ships set up!");
                 AskAllShips(playerShipBoard);
 
+                Console.WriteLine("\nAlright, that's it!");
 
 
+                // Now show the player their entire board (with the guesses, too).
+                // Explain it to them a little, including that any guesses will be x or o
+                Console.WriteLine("\n\nNow that we're set up, here are your boards.\n");
+                DisplayBoth(playerGuessBoard, playerShipBoard);
+                Console.WriteLine("\nThe top board will show your hits and misses on the enemy's board.");
+                Console.WriteLine("The bottom board is your own and shows where the enemy has hit and missed");
+
+
+
+                // a pause
+                Console.ReadLine();
 
             } while (cont); // loop as long as they want to play a game
 
@@ -340,6 +352,7 @@ namespace ShipBattles
             DisplayBoard(guessBoard);
             Console.WriteLine(line);
             DisplayBoard(shipBoard);
+            Console.WriteLine("An 'o' is a miss, while an 'x' is a hit.");
 
         }
 
