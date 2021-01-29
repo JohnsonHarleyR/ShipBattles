@@ -172,13 +172,13 @@ namespace ShipBattles
             if (shipSize != xDif && shipSize != yDif)
             {
                 //successful = false;
-                Console.WriteLine($"Difference does not match ship size."); // test
+                //Console.WriteLine($"Difference does not match ship size."); // test
 
                 return false;
             }
 
             // make sure the spaces are in line either vertically or horizonally
-            if (pos1[0] != pos1[0] && pos1[1] != pos1[1])
+            if (pos1[0] != pos2[0] && pos1[1] != pos2[1])
             {
                 //successful = false;
                 return false; // it is not in a straight line so return false
