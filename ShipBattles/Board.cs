@@ -80,6 +80,7 @@ namespace ShipBattles
         }
 
 
+
         // Add a ship to the board - do this only after the ship spaces have been validated
         public void AddShipSpace(string pos1String, string pos2String)
         {
@@ -339,8 +340,8 @@ namespace ShipBattles
 
 
 
-
         // Generate random positions of ships for an AI board
+        // TODO move this to the AI class
         public void GenerateAIPositions()
         {
             // loop through the different ships (by size) to decide positions

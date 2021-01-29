@@ -13,6 +13,8 @@ namespace ShipBattles
             Board compShipBoard; // the board the computer will place ships on
             Board compGuessBoard; // the board where the computer will guess
 
+            AI computer; // the AI player
+
             string introMsg =
 " _     _  _______  ___      _______  _______  __   __  _______    _______  _______                \n" +
 "| | _ | ||       ||   |    |       ||       ||  |_|  ||       |  |       ||       |               \n" +
@@ -54,7 +56,10 @@ namespace ShipBattles
 
                 compGuessBoard = new Board(); // the board where the computer will guess
                 compShipBoard = new Board(); // the board the computer will place ships on
-                
+
+                // give boards to AI
+                computer = new AI(compShipBoard, compGuessBoard); // these should all reference the same object?
+
 
 
                 // Generate the positions for the AI's board
