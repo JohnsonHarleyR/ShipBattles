@@ -174,7 +174,7 @@ namespace ShipBattles
 
                         // Get the AI's guess
                         int[] guessInt = computer.AIGuess(compGuessBoard);
-                        string guess = compGuessBoard.GeneratePosString(guessInt);
+                        string guess = compGuessBoard.ChangeSpaceToString(guessInt);
                         Console.WriteLine($"\nThe AI is guessing {guess}.");
                             
 
@@ -417,7 +417,7 @@ namespace ShipBattles
             // if it's valid, add to board
             if (valid)
             {
-                board.AddShipSpace(pos1Temp, pos2Temp);
+                board.AddShip(shipName, pos1Temp, pos2Temp);
             }
         }
 

@@ -3,6 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace ShipBattles
+
+// ChangeSpaceToNums() - turn string coordinates into number coordinates
+// ChangeSpaceToString() - turn number coordinates into string
+
+// GetSpaceVal(string input) - get value of space on board based on string input
+
+//AddShip
+
+// For marking a ship and determining if it's afloat or sunk
+
+// GetAllShipCoords - dictionaries of ship coordinates and bools whether they're afloat - by name
+// GetAllShipsAfloat
+//CheckShipAfloat check if a particular ship is afloat - returns a bool
+//DetermineShipBySpace - find out the name of a ship that has just been hit - returns a string with name
+//TestDisplayShipCoords - a way to test that the coords were entered correctly into a list
+
+
+//MarkSpaceAsHit
+//MarkSpaceAsMiss
+//MarkSpaceAsShip
+
+//GenerateAIPositions - for the AI to generate a board - TODO move this to AI class when possible
 {
     class Board
     {
@@ -15,6 +37,15 @@ namespace ShipBattles
            //     "E", "F", "G", "H", "I", "J" };
         private string[,] boardVals = new string[10, 10];
 
+        // Information for ships - if it's a ship board
+        private List<string> Carrier = new List<string>(); // these ships will store the coordinates of every position
+        private List<string> Battleship = new List<string>(); // coordinates listed as string to simplify
+        private List<string> Cruiser = new List<string>();
+        private List<string> Submarine = new List<string>();
+        private List<string> Destroyer = new List<string>();
+        private Dictionary<string, List<string>> shipCoords = new Dictionary<string, List<string>>();
+        private Dictionary<string, bool> shipsAfloat = new Dictionary<string, bool>(); // keeps track of whether a ship is still afloat
+        // (the above correlates to ship sizes and names)
 
         public Board()
         {
@@ -28,6 +59,26 @@ namespace ShipBattles
                 }
             }
 
+            // add ships to dictionary of ships
+            shipCoords.Add("Carrier", Carrier); shipCoords.Add("Battleship", Battleship); shipCoords.Add("Cruiser", Cruiser);
+            shipCoords.Add("Submarine", Submarine); shipCoords.Add("Destroyer", Destroyer);
+
+            // add true values to ships afloat
+            shipsAfloat.Add("Carrier", true); shipsAfloat.Add("Battleship", true); shipsAfloat.Add("Cruiser", true);
+            shipsAfloat.Add("Submarine", true); shipsAfloat.Add("Destroyer", true);
+
+        }
+
+        // get the dictionary of ship coordinates
+        public Dictionary<string, List<string>> GetAllShipCoords()
+        {
+            return shipCoords;
+        }
+
+        // get the list of ships still afloat
+        public Dictionary<string, bool> GetAllShipsAfloat()
+        {
+            return shipsAfloat;
         }
 
         // get the ship names
@@ -53,7 +104,7 @@ namespace ShipBattles
         {
             try // some validation just in case - TODO Add similar validation to other methods - try catch
             {
-                int[] pos = MatchSpace(input); // gets coordinates based on validated user input
+                int[] pos = ChangeSpaceToNums(input); // gets coordinates based on validated user input
                 return boardVals[pos[0], pos[1]];
             } catch (Exception)
             {
@@ -63,32 +114,130 @@ namespace ShipBattles
             
         }
 
+
+        // check if a particular ship is afloat - returns a bool
+        public bool CheckShipAfloat(string shipName)
+        {
+            bool afloat = false;
+            
+
+            // iterate through that ship's coordinates by it's name
+            // if any of them are still marked "+", it is afloat
+            foreach (string coord in shipCoords[shipName])
+            {
+                if (GetSpaceVal(coord).Equals("+"))
+                {
+                    afloat = true;
+                }    
+            }
+
+            // also set that ship's boolean to that value (NOTE: this dictionary may not prove necessary)
+            shipsAfloat[shipName] = afloat;
+
+            Console.WriteLine($"Test - Ship afloat?: {afloat}"); // test
+
+            return afloat; // return result
+
+    }
+
+        // determine which ship has a space in their coordinates - for when there's a hit
+        public string DetermineShipBySpace(string space)
+        {
+            // loop through the dictionary of ships and their spaces, see if any of them match
+            // if it does, return the name of that ship
+            foreach (KeyValuePair<string, List<string>> ship in shipCoords)
+            {
+                // loop through that ships coordinates
+                foreach(string coord in ship.Value)
+                {
+                    // if there's a match in the ship's coordinates, return that ship's name
+                    if (coord == space)
+                    {
+                        Console.WriteLine($"Test - Found ship: {ship.Key}"); // test
+
+                        return ship.Key;
+                    }
+                }
+
+            }
+
+            // if there's no match, return a string saying no match
+            return "no match";
+
+        }
+
+
+
+
+
         // mark as space on the board as hit
         public void MarkSpaceAsHit(string input)
         {
-            int[] pos = MatchSpace(input); // gets coordinates based on validated user input
+            int[] pos = ChangeSpaceToNums(input); // gets coordinates based on validated user input
             // mark that board value as "x"
             boardVals[pos[0], pos[1]] = "x";
+
         }
 
         // mark as space on the board as hit
         public void MarkSpaceAsMiss(string input)
         {
-            int[] pos = MatchSpace(input); // gets coordinates based on validated user input
+            int[] pos = ChangeSpaceToNums(input); // gets coordinates based on validated user input
             // mark that board value as "o"
             boardVals[pos[0], pos[1]] = "o";
         }
 
 
+        // checking whether a ship is still afloat or not
+
+
+        // display coordinates of a ship in the console - for testing
+        public void TestDisplayShipCoord(string shipName)
+        {
+            List<string> ship = shipCoords[shipName];
+            Console.Write($"\nTest - displaying '{shipName}' coords: ");
+            foreach (string coord in ship)
+            {
+                Console.Write($"{coord},");
+            }
+        }
+
+
 
         // Add a ship to the board - do this only after the ship spaces have been validated
-        public void AddShipSpace(string pos1String, string pos2String)
+        public void AddShip(string shipName, string pos1String, string pos2String)
         {
             // variables
             //bool successful = true; // determines if a ship can be places where it's told to be placed
-            int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
-            int[] pos2 = MatchSpace(pos2String);
-            int shipSize;
+            int[] pos1 = ChangeSpaceToNums(pos1String); // get space coordinates as a number
+            int[] pos2 = ChangeSpaceToNums(pos2String);
+            List<string> ship;
+            //int shipSize;
+
+            // find out which ship is being assigned
+            // find out what size the ship is supposed to be
+            switch (shipName)
+            {
+                case "Carrier":
+                    ship = Carrier; // assign the ship so coordinates can be added
+                    break;
+                case "Battleship":
+                    ship = Battleship;
+                    break;
+                case "Cruiser":
+                    ship = Cruiser;
+                    break;
+                case "Submarine":
+                    ship = Submarine;
+                    break;
+                case "Destroyer":
+                    ship = Destroyer;
+                    break;
+                default:
+                    Console.WriteLine("Error: ship type is not valid.");
+                    ship = new List<string>();
+                    break;
+            }
 
             // change spaces in line to "+"
             int tempX;
@@ -137,7 +286,12 @@ namespace ShipBattles
                 for (int i = tempY; i <= tempTop; i++)
                 {
                     boardVals[tempX, i] = "+";
+                    ship.Add(ChangeSpaceToString(new int[] {tempX, i }));
+
+                   
                 }
+
+                //TestDisplayShipCoord(shipName); // test
 
             }
         }
@@ -150,8 +304,8 @@ namespace ShipBattles
 
             // variables
             //bool successful = true; // determines if a ship can be places where it's told to be placed
-            int[] pos1 = MatchSpace(pos1String); // get space coordinates as a number
-            int[] pos2 = MatchSpace(pos2String);
+            int[] pos1 = ChangeSpaceToNums(pos1String); // get space coordinates as a number
+            int[] pos2 = ChangeSpaceToNums(pos2String);
             int xDif = Math.Abs(pos2[0] - pos1[0]) + 1;
             int yDif = Math.Abs(pos2[1] - pos1[1]) + 1;
             int shipSize;
@@ -272,7 +426,7 @@ namespace ShipBattles
 
         // returns the number positions on a board based on a user's input
         // NOTE the input must be in this format "A1" - should already be validated
-        public int[] MatchSpace(string space)
+        public int[] ChangeSpaceToNums(string space)
         {
             // variables
             string posX;
@@ -338,7 +492,7 @@ namespace ShipBattles
 
 
         // Make a string based on a position
-        public string GeneratePosString(int[] pos)
+        public string ChangeSpaceToString(int[] pos)
         {
             string posString;
 
@@ -387,6 +541,28 @@ namespace ShipBattles
 
             // return the string;
             return posString;
+        }
+
+        // Get the different ships
+        public List<string> GetCarrier()
+        {
+            return Carrier;
+        }
+        public List<string> GetBattleship()
+        {
+            return Battleship;
+        }
+        public List<string> GetCruiser()
+        {
+            return Cruiser;
+        }
+        public List<string> GetSubmarine()
+        {
+            return Submarine;
+        }
+        public List<string> GetDestroyer()
+        {
+            return Destroyer;
         }
 
 
@@ -537,15 +713,23 @@ namespace ShipBattles
                 } while (!valid);
 
                 // NOW that a valid spot has been found for the ship, set those positions to +
+                string shipName = SHIP_NAMES[ship];
                 for (int x = 0; x < positionsX.Length; x++)
                 {
                     for (int y = 0; y < positionsY.Length; y++)
                     {
                         boardVals[positionsX[x], positionsY[y]] = "+";
+                        //also add coordinates to that ship in dictionary
+                        if (!shipCoords[shipName].Contains(ChangeSpaceToString(new int[] { positionsX[x], positionsY[y] })))
+                        { // avoid repeats in the list
+                            shipCoords[shipName].Add(ChangeSpaceToString(new int[] { positionsX[x], positionsY[y] }));
+                        }
+                        
+
                     }
                 }
 
-
+                //TestDisplayShipCoord(shipName); // test
 
 
 
