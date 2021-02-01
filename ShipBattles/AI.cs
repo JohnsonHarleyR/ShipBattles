@@ -42,6 +42,28 @@ namespace ShipBattles
 
         }
 
+        // test method - make them guess a specific guess to test the AIGuess method
+        // WARNING: this doesn't have validation since it's only a test method - be sure to type
+        // position with capital letters
+        // NOTE: I'm only taking input from the console here because it's a test method
+        public void MakeCertainGuess(Board guessBoard) // should take in the AI's guess board
+        {
+            //variables
+            string guess;
+
+            // get the position to guess specifically for testing - must be input correctly
+            Console.Write("/nTest which AI guess?: ");
+            guess = Console.ReadLine();
+
+            // turn that spot on the board to x
+            guessBoard.MarkSpaceAsHit(guess);
+            // add spot to compHits, as if it had just randomly guessed this position
+            compHits.Add(guess);
+            // set hitShip as true, as if the AI had randomly guessed it
+            hitShip = true;
+
+        }
+
 
         // Allow the AI to make a guess
         public int[] AIGuess(Board guessBoard) // takes in AI guess board, returns coordinates of their guess
