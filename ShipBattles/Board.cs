@@ -28,8 +28,7 @@ namespace ShipBattles
 {
     class Board
     {
-        // TODO alter code so that the game can identify which ship has sunk - do at end as not necessary to function
-
+        
         private readonly int[] SHIP_SIZES = new int[]{5, 4, 3, 3, 2}; // how big each ship is
         private readonly string[] SHIP_NAMES = new string[]{"Carrier", // the names of each ship, matches respectively to sizes
         "Battleship", "Cruiser", "Submarine", "Destroyer"};
