@@ -46,21 +46,23 @@ namespace ShipBattles
         // WARNING: this doesn't have validation since it's only a test method - be sure to type
         // position with capital letters
         // NOTE: I'm only taking input from the console here because it's a test method
-        public void MakeCertainGuess(Board guessBoard) // should take in the AI's guess board
+        public void MakeCertainGuess(Board guessBoard, Board shipBoard) // should take in the AI's guess board & player's board
         {
             //variables
             string guess;
 
             // get the position to guess specifically for testing - must be input correctly
-            Console.Write("/nTest which AI guess?: ");
+            Console.Write("\nTest which AI guess?: ");
             guess = Console.ReadLine();
 
-            // turn that spot on the board to x
+            // turn that spot on the boards to x
             guessBoard.MarkSpaceAsHit(guess);
+            shipBoard.MarkSpaceAsHit(guess);
             // add spot to compHits, as if it had just randomly guessed this position
             compHits.Add(guess);
             // set hitShip as true, as if the AI had randomly guessed it
             hitShip = true;
+            // strikeLastTurn should already be true
 
         }
 
@@ -110,6 +112,10 @@ namespace ShipBattles
             // otherwise, start guessing around that hit until a ship gets sunk
             else // 'hitShip' must otherwise be true
             {
+
+                //TODO Make sure the game accounts for if the AI guessing a space that
+                // happens to be on a DIFFERENT ship
+
                 // check if the ship in the lastHit position has sunk or not
 
                 // if the ship has not sunk, keep gussing positions around it

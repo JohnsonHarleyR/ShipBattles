@@ -97,6 +97,10 @@ namespace ShipBattles
                     Console.WriteLine("\n(Hit enter to continue.)");
                     Console.ReadLine();
 
+                    // test - let the AI make an accurate guess to test their logic method
+                    // NOTE: must enter accurate position - no validation for the test
+                    computer.MakeCertainGuess(compGuessBoard, playerShipBoard);
+
                     /*
                     // test - to see enemy positions while testing
                     Console.WriteLine("\nTEST: Displaying enemy positions.\n");
@@ -130,18 +134,18 @@ namespace ShipBattles
                                     // set the enemy's board to show you missed too
                                     compShipBoard.MarkSpaceAsMiss(guess);
                                     break;
-                                case "+":
+                                case "#":
                                     Console.WriteLine("\nYou hit an enemy ship!\n");
                                     // set the player's guess board to 'hit' which is 'x'
                                     playerGuessBoard.MarkSpaceAsHit(guess);
                                     // set the enemy's board to show you hit too
                                     compShipBoard.MarkSpaceAsHit(guess);
                                     break;
-                                case "x":
+                                case "X":
                                     Console.WriteLine("You already hit their ship here.");
                                     alreadyHit = true;
                                     break;
-                                case "o":
+                                case "O":
                                     Console.WriteLine("You already guessed that position.");
                                     alreadyHit = true;
                                     break;
@@ -191,17 +195,17 @@ namespace ShipBattles
                                 // set your board to show they missed
                                 playerShipBoard.MarkSpaceAsMiss(guess);
                                 break;
-                            case "+":
+                            case "#":
                                 Console.WriteLine("\nShe hit one of your ships!\n");
                                 // set the AI's guess board to 'hit' which is 'x'
                                 compGuessBoard.MarkSpaceAsHit(guess);
                                 // set your board to show they hit
                                 playerShipBoard.MarkSpaceAsHit(guess);
                                 break;
-                            case "x":
+                            case "X":
                                 Console.WriteLine("She already hit that ship. (How did that happen?)");
                                 break;
-                            case "o":
+                            case "O":
                                 Console.WriteLine("She already hit that spot. (How did that happen?)");
                                 break;
                             default:
@@ -342,7 +346,7 @@ namespace ShipBattles
             // variables
             bool shipsLeft = false;
             string[,] boardVals = board.GetBoardVals(); // make it easier
-            // iterate through board, if it finds a "+", then there are ships left
+            // iterate through board, if it finds a "#", then there are ships left
             for (int x = 0; x < 10; x++)
             {
                 for (int y = 0; y < 10; y++)
@@ -351,8 +355,8 @@ namespace ShipBattles
 
                     //Console.WriteLine($"Value: '{boardVals[x, y]}'"); // test
 
-                    // check if it matches "+"
-                    if (boardVals[x,y].Equals("+"))
+                    // check if it matches "#"
+                    if (boardVals[x,y].Equals("#"))
                     {
                         shipsLeft = true;
 
@@ -464,7 +468,13 @@ namespace ShipBattles
             position.Trim();
             //Console.WriteLine($"Pos: {position}");
 
-            // now check that the letter is from A - Z and in the first position
+            // if they entered nothing, assign it a letter out of bounds to avoid issues
+            if (position == "")
+            {
+                position = "Y";
+            }
+
+            // now check that the letter is from A - J and in the first position
             pos1 = position.Substring(0, 1);
             foreach (string letter in letters)
             {
@@ -583,7 +593,7 @@ namespace ShipBattles
             DisplayBoard(guessBoard);
             Console.WriteLine(line);
             DisplayBoard(shipBoard);
-            Console.WriteLine("\nAn 'o' is a miss, while an 'x' is a hit.");
+            Console.WriteLine("\nAn 'O' is a miss, while an 'X' is a hit.");
 
         }
 

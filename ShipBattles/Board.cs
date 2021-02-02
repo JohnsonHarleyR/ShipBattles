@@ -121,10 +121,10 @@ namespace ShipBattles
             
 
             // iterate through that ship's coordinates by it's name
-            // if any of them are still marked "+", it is afloat
+            // if any of them are still marked "#", it is afloat
             foreach (string coord in shipCoords[shipName])
             {
-                if (GetSpaceVal(coord).Equals("+"))
+                if (GetSpaceVal(coord).Equals("#"))
                 {
                     afloat = true;
                 }    
@@ -173,8 +173,8 @@ namespace ShipBattles
         public void MarkSpaceAsHit(string input)
         {
             int[] pos = ChangeSpaceToNums(input); // gets coordinates based on validated user input
-            // mark that board value as "x"
-            boardVals[pos[0], pos[1]] = "x";
+            // mark that board value as "X"
+            boardVals[pos[0], pos[1]] = "X";
 
         }
 
@@ -182,8 +182,8 @@ namespace ShipBattles
         public void MarkSpaceAsMiss(string input)
         {
             int[] pos = ChangeSpaceToNums(input); // gets coordinates based on validated user input
-            // mark that board value as "o"
-            boardVals[pos[0], pos[1]] = "o";
+            // mark that board value as "O"
+            boardVals[pos[0], pos[1]] = "O";
         }
 
 
@@ -238,7 +238,7 @@ namespace ShipBattles
                     break;
             }
 
-            // change spaces in line to "+"
+            // change spaces in line to "#"
             int tempX;
             int tempY;
             int tempTop; // the lst space in the line
@@ -261,7 +261,7 @@ namespace ShipBattles
                 // loop through values to change
                 for (int i = tempX; i <= tempTop; i++)
                 {
-                    boardVals[i, tempY] = "+";
+                    boardVals[i, tempY] = "#";
                 }
 
             }
@@ -284,7 +284,7 @@ namespace ShipBattles
                 // loop through values to change
                 for (int i = tempY; i <= tempTop; i++)
                 {
-                    boardVals[tempX, i] = "+";
+                    boardVals[tempX, i] = "#";
                     ship.Add(ChangeSpaceToString(new int[] {tempX, i }));
 
                    
@@ -353,7 +353,7 @@ namespace ShipBattles
                 return false; // it is not in a straight line so return false
             }
 
-            // now test all spaces in that ship line to make sure they do not have "+" ****GOOD FOR ANOTHER FUNCTION****
+            // now test all spaces in that ship line to make sure they do not have "#" ****GOOD FOR ANOTHER FUNCTION****
             int tempX;
             int tempY;
             int tempTop; // the lst space in the line
@@ -418,8 +418,8 @@ namespace ShipBattles
         // mark as space on the board as part of your ship
         public void MarkSpaceAsShip(int[] pos)
         {
-            // mark that board value as "+"
-            boardVals[pos[0], pos[1]] = "+";
+            // mark that board value as "#"
+            boardVals[pos[0], pos[1]] = "#";
         }
 
 
@@ -717,7 +717,7 @@ namespace ShipBattles
                 {
                     for (int y = 0; y < positionsY.Length; y++)
                     {
-                        boardVals[positionsX[x], positionsY[y]] = "+";
+                        boardVals[positionsX[x], positionsY[y]] = "#";
                         //also add coordinates to that ship in dictionary
                         if (!shipCoords[shipName].Contains(ChangeSpaceToString(new int[] { positionsX[x], positionsY[y] })))
                         { // avoid repeats in the list
