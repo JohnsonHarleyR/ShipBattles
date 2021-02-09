@@ -20,6 +20,7 @@ namespace ShipBattles
         private bool strikeLastTurn = true; // default is true until there's a miss
         private Stack<string> directions = new Stack<string>();
         private string currentDirection; // the direction the AI is going in to guess
+        bool reverseTime = false; // for the last hit if the direction needs to be reversed
 
 
 
@@ -71,6 +72,7 @@ namespace ShipBattles
 
 
         // Allow the AI to make a guess
+        // TODO if the AI misses by guessing up, have it choose left or right
         public int[] AIGuess(Board guessBoard, Board shipBoard) // takes in AI guess board, returns coordinates of their guess
         {                                                       // shipBoard is the player's board so it can check if there's a hit
             // variables
@@ -126,12 +128,16 @@ namespace ShipBattles
             // otherwise, start guessing around that hit until a ship gets sunk
             else // 'hitShip' must otherwise be true
             {
+                string newGuess = "";
+                string shipHit;
+                
 
                 //TODO Make sure the game accounts for if the AI guessing a space that
                 // happens to be on a DIFFERENT ship
 
                 // Get the ship that was last hit
-                string shipHit = shipBoard.DetermineShipBySpace(compHits[compHits.Count - 1]);
+                shipHit = shipBoard.DetermineShipBySpace(compHits[compHits.Count - 1]);
+                
 
                 // check if the ship in the lastHit position has sunk or not
                 if (shipBoard.CheckShipAfloat(shipHit))
@@ -141,15 +147,19 @@ namespace ShipBattles
                     while (!validDirection) // loop until the currentDirection is valid
                     {
                         // if strikeLastTurn is false, find a new currentDirection
-                        if (!strikeLastTurn)
+                        if (!strikeLastTurn && !reverseTime) // strikes being less than two means it hasn't discovered the "line"
                         {
                             currentDirection = directions.Pop();
                         }
+
+
 
                         // otherwise, keep guessing in that direction
 
                         // get the last positions for the last guess
                         int[] lastHitPos = guessBoard.ChangeSpaceToNums(compHits[compHits.Count - 1]);
+
+                        // do this next section if the direction is not reversed due to needing to switch directions
 
                         // attempt to hit a ship in the current direction
                         // TODO also check to make sure that spot in that direction has not been hit already
@@ -246,8 +256,11 @@ namespace ShipBattles
                                 Console.WriteLine("Error: not valid - something went wrong"); // test
                                 break;
                         }
+                        
 
-                        Console.WriteLine($"New guess: {guessBoard.ChangeSpaceToString(new int[] {posX, posY})}");//test
+
+                        newGuess = guessBoard.ChangeSpaceToString(new int[] { posX, posY });
+                        Console.WriteLine($"New guess: {newGuess}"); //test
 
 
 
@@ -255,31 +268,103 @@ namespace ShipBattles
                     
 
                     // if there's a hit, strikeLastTurn is now true and add last hit to compHits
+                    if (playerBoardVals[posX, posY].Equals("#"))
+                    {
+                        strikeLastTurn = true;
+                        compHits.Add(newGuess);
+                        //strikes++; // add to number of strikes
 
-                    // otherwise, strikeLastTurn becomes false so a new direction can be taken
+                        Console.WriteLine($"There is a strike! strikeLastTurn = true"); //test
+                    }
+                    else // otherwise, strikeLastTurn becomes false so a new direction can be taken
+                    {
+                        strikeLastTurn = false;
+                        try
+                        {
+                            currentDirection = directions.Pop();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                        
+
+                        Console.WriteLine($"No strike. Choosing new direction:" +
+                            $" {currentDirection} strikeLastTurn = false"); //test
+                    }
+                    
 
                     // if strikeLastTurn is now false, check if there is more than one item in compHits
+                    if (!strikeLastTurn && compHits.Count > 1)
+                    {
+                        // if there's more than one, that means we are in line with the ship, but
+                        // the hits ran out in that direction - so simply reverse direction
+                        // if the currentDirection is left, go right. If it's up, go down. Etc.
 
-                    // if there's more than one, that means we are in line with the ship, but
-                    // the hits ran out in that direction - so simply reverse direction
-                    // if the currentDirection is left, go right. If it's up, go down. Etc.
+                        Console.WriteLine($"In line with ship but no more in this direction.\n" +
+                            $"Reversing direction."); //test
+
+                        int[] firstSpot = guessBoard.ChangeSpaceToNums(compHits[0]);
+
+                        switch (currentDirection)
+                        { // be sure to reverse directions from the first hit point in the ships
+                            case "left":
+                                currentDirection = "right";
+                                //posX = firstSpot[0];
+                                //posY = firstSpot[1] + 1;
+                                reverseTime = true;
+                                break;
+                            case "right":
+                                currentDirection = "left";
+                                reverseTime = true;
+                                break;
+                            case "up":
+                                currentDirection = "down";
+                                reverseTime = true;
+                                break;
+                            case "down":
+                                currentDirection = "up";
+                                reverseTime = true;
+                                break;
+                        }
+
+                    }
+
+
 
 
                     // check if the ship has now sunk after hitting a spot
+                    if (strikeLastTurn && !shipBoard.CheckShipAfloat(shipHit))
+                    { // if so, basically reset everything
 
-                    // if it has sunk, reset the stack and randomize the directions again
+                        // hitShip becomes false
+                        hitShip = false;
 
-                    // after randomized, set currentDirection to top of stack again for next time
+                        // reset the stack and randomize the directions again
+                        directions.Clear();
+                        directions.Push("left");
+                        directions.Push("right");
+                        directions.Push("up");
+                        directions.Push("down");
+                        Shuffle(directions);
 
-                    // reset strikeLastTurn to false - allows if-then to work correctly
+                        // after randomized, set currentDirection to top of stack again for next time
+                        currentDirection = directions.Pop();
 
-                    // clear compHits for the next ship that gets hit
+                        // reset strikeLastTurn to false - allows if-then to work correctly
+                        strikeLastTurn = false;
+
+                        // clear compHits for the next ship that gets hit
+                        compHits.Clear();
+
+                        // set reverseTime to false
+                        reverseTime = false;
+                    }
+
                 }
 
 
-
-
-                return new int[] { 0, 0 }; // placeholder basically
+                return new int[] { posX, posY }; // return result
             }
 
 

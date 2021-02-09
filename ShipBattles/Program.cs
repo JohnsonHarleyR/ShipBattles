@@ -4,6 +4,9 @@ namespace ShipBattles
 {
     // TODO Extra testing and debugging just in case
 
+    //TODO Found a bug where if you guess a position you already guessed, it will continue to ask for a position and won't stop
+
+
     class Program
     {
 
