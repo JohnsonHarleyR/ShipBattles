@@ -84,7 +84,12 @@ namespace ShipBattles
                 Console.WriteLine("\nThe top board will show where you have hit or missed on the enemy's board.");
                 Console.WriteLine("The bottom board is your own. It will show where the enemy has hit or missed.");
                 DisplayBoth(playerGuessBoard, playerShipBoard);
-               
+
+
+                // test - let the AI make an accurate guess to test their logic method
+                // NOTE: must enter accurate position - no validation for the test
+                computer.MakeCertainGuess(compGuessBoard, playerShipBoard);
+
 
 
                 // start the game officially as a loop, player gets to guess first
@@ -92,14 +97,12 @@ namespace ShipBattles
                 {
                     // variables
                     //bool playerWins; // this will get set to true or false once one of the boards has no ships
-
+                    
                     // a pause
                     Console.WriteLine("\n(Hit enter to continue.)");
                     Console.ReadLine();
 
-                    // test - let the AI make an accurate guess to test their logic method
-                    // NOTE: must enter accurate position - no validation for the test
-                    computer.MakeCertainGuess(compGuessBoard, playerShipBoard);
+                    
 
                     /*
                     // test - to see enemy positions while testing
@@ -177,7 +180,7 @@ namespace ShipBattles
                         Console.Write("It's the AI's turn to guess!");
 
                         // Get the AI's guess
-                        int[] guessInt = computer.AIGuess(compGuessBoard);
+                        int[] guessInt = computer.AIGuess(compGuessBoard, playerShipBoard);
                         string guess = compGuessBoard.ChangeSpaceToString(guessInt);
                         Console.WriteLine($"\nThe AI is guessing {guess}.");
                             
@@ -223,6 +226,10 @@ namespace ShipBattles
                         // show them their boards again
                         Console.WriteLine("Here are your boards.\n");
                         DisplayBoth(playerGuessBoard, playerShipBoard);
+
+                        // test
+                        Console.WriteLine("TEST: AI Guess Board\n");
+                        DisplayBoard(compGuessBoard);
 
 
                         // it's now the player's turn
