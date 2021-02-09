@@ -159,10 +159,10 @@ namespace ShipBattles
                                 Console.WriteLine("Trying left"); // test
 
                                 // make sure it won't be off the board
-                                if (lastHitPos[0] - 1 >= 0)
+                                if (lastHitPos[1] - 1 >= 0)
                                 {
-                                    posX = lastHitPos[0] - 1;
-                                    posY = lastHitPos[1];
+                                    posX = lastHitPos[0];
+                                    posY = lastHitPos[1] - 1;
                                     validDirection = true;
 
                                     Console.WriteLine("valid"); // test
@@ -179,10 +179,10 @@ namespace ShipBattles
                                 Console.WriteLine("Trying right"); // test
 
                                 // make sure it won't be off the board
-                                if (lastHitPos[0] + 1 <= 9)
+                                if (lastHitPos[1] + 1 <= 9)
                                 {
-                                    posX = lastHitPos[0] + 1;
-                                    posY = lastHitPos[1];
+                                    posX = lastHitPos[0];
+                                    posY = lastHitPos[1] + 1;
                                     validDirection = true;
 
                                     Console.WriteLine("valid"); // test
@@ -201,10 +201,10 @@ namespace ShipBattles
                                 Console.WriteLine("Trying up"); // test
 
                                 // make sure it won't be off the board
-                                if (lastHitPos[1] - 1 >= 0)
+                                if (lastHitPos[0] - 1 >= 0)
                                 {
-                                    posX = lastHitPos[0];
-                                    posY = lastHitPos[1] - 1;
+                                    posX = lastHitPos[0] - 1;
+                                    posY = lastHitPos[1];
                                     validDirection = true;
 
                                     Console.WriteLine("valid"); // test
@@ -221,10 +221,10 @@ namespace ShipBattles
                                 Console.WriteLine("Trying down"); // test
 
                                 // make sure it won't be off the board
-                                if (lastHitPos[1] + 1 <= 9)
+                                if (lastHitPos[0] + 1 <= 9)
                                 {
-                                    posX = lastHitPos[0];
-                                    posY = lastHitPos[1] + 1;
+                                    posX = lastHitPos[0] + 1;
+                                    posY = lastHitPos[1];
                                     validDirection = true;
 
                                     Console.WriteLine("valid"); // test

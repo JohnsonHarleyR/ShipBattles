@@ -230,9 +230,11 @@ namespace ShipBattles
                         Console.WriteLine("Here are your boards.\n");
                         DisplayBoth(playerGuessBoard, playerShipBoard);
 
+                        /*
                         // test
                         Console.WriteLine("TEST: AI Guess Board\n");
                         DisplayBoard(compGuessBoard);
+                        */
 
 
                         // it's now the player's turn
