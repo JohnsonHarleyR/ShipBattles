@@ -73,7 +73,10 @@ namespace ShipBattles
                 // Ask the player where they want to place their ships
                 Console.WriteLine("\nYou will be playing against an AI who has already set up her ships.");
                 Console.WriteLine("Your board is pretty empty, so let's get your ships set up!");
-                AskAllShips(playerShipBoard);
+                //AskAllShips(playerShipBoard);
+
+                // Test - premade template for testing
+                TestPremadeLayout(playerShipBoard);
 
                 Console.WriteLine("\nAlright, that's it!");
 
@@ -601,6 +604,19 @@ namespace ShipBattles
             Console.WriteLine(line);
             DisplayBoard(shipBoard);
             Console.WriteLine("\nAn 'O' is a miss, while an 'X' is a hit.");
+
+        }
+
+
+        // A method to set up a pre-made board for the sake of testing
+        public static void TestPremadeLayout(Board board)
+        {
+            // setting up the board
+            board.AddShip("Carrier", "A1", "A5");
+            board.AddShip("Battleship", "A7", "D7");
+            board.AddShip("Cruiser", "F3", "F5");
+            board.AddShip("Submarine", "F9", "H9");
+            board.AddShip("Destroyer", "I1", "I2");
 
         }
 

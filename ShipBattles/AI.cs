@@ -77,8 +77,8 @@ namespace ShipBattles
             Random random = new Random();
             string[,] guessBoardVals = guessBoard.GetBoardVals(); // make it simpler
             string[,] playerBoardVals = shipBoard.GetBoardVals();
-            int posX;
-            int posY;
+            int posX = -1; // indicates error if it's still -1
+            int posY = -1;
             bool validGuess;
 
             //Console.WriteLine("AI GUESS"); // test
@@ -238,8 +238,19 @@ namespace ShipBattles
 
                                 }
                                 break;
+                            default:
+                                posX = lastHitPos[0];
+                                posY = lastHitPos[1];
+                                validDirection = false;
 
+                                Console.WriteLine("Error: not valid - something went wrong"); // test
+                                break;
                         }
+
+                        Console.WriteLine($"New guess: {guessBoard.ChangeSpaceToString(new int[] {posX, posY})}");//test
+
+
+
                     }
                     
 
